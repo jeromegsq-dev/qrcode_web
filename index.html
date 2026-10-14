@@ -4,8 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#ffffff">
-<title>Codes QR pour l'école</title>
-<meta name="description" content="Créez gratuitement des codes QR pour vos fiches, devoirs et affiches. Sans compte et sans filigrane.">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="alternate icon" href="favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<title>FlashQR – Créer un code QR gratuit</title>
+<meta name="description" content="Transformez un lien en code QR gratuit, à télécharger en PNG. Sans compte et sans filigrane.">
 <style>
   :root {
     --ink: #0f1115;
@@ -186,7 +189,7 @@
           <path d="M3 3h8v8H3zm2 2v4h4V5zm8-2h8v8h-8zm2 2v4h4V5zM3 13h8v8H3zm2 2v4h4v-4zm8-2h3v3h-3zm5 0h3v3h-3zm-5 5h3v3h-3zm5 0h3v3h-3z"/>
         </svg>
       </span>
-      Codes QR École
+      FlashQR
     </a>
     <nav class="nav-links" aria-label="Principal">
       <a href="#comment">Comment ça marche</a>
@@ -201,11 +204,11 @@
       <div>
         <span class="badge"><i></i>Gratuit · sans compte · sans filigrane</span>
         <h1>Transformez un lien en <em>code QR</em>.</h1>
-        <p class="lead">Collez l'adresse d'une page, téléchargez l'image, puis mettez-la sur votre feuille ou votre affiche.</p>
+        <p class="lead">Collez un lien, une adresse courriel ou écrivez un texte. Téléchargez l'image, puis mettez-la sur votre feuille ou votre affiche.</p>
 
-        <label for="lien">Votre lien</label>
+        <label for="lien">Votre lien ou votre texte</label>
         <input class="input" id="lien" type="text" inputmode="url" autocomplete="off" spellcheck="false"
-               placeholder="https://monsite.ca/devoir-3" aria-describedby="indice">
+               placeholder="exemple.com/mon-lien ou un texte libre" aria-describedby="indice">
         <p class="hint" id="indice" aria-live="polite"></p>
         <div class="actions">
           <button class="btn" type="button" id="png" disabled>
@@ -233,8 +236,8 @@
         <li>
           <span class="num">1</span>
           <div>
-            <h3>Collez votre lien</h3>
-            <p>Copiez l'adresse de la page, du document ou du formulaire à partager.</p>
+            <h3>Collez votre lien ou écrivez votre texte</h3>
+            <p>Une adresse web, une adresse courriel ou une phrase : le code s'adapte.</p>
           </div>
         </li>
         <li>
@@ -288,7 +291,7 @@
             </svg>
           </div>
           <h3>Testez d'abord</h3>
-          <p>Imprimez une copie, placez-la à la distance réelle des élèves et scannez-la avec deux téléphones.</p>
+          <p>Imprimez une copie, placez-la à la distance réelle de lecture et scannez-la avec deux téléphones.</p>
         </div>
       </div>
     </div>
@@ -297,7 +300,7 @@
 
 <footer>
   <div class="shell">
-    <span>Le lien que vous collez n'est ni envoyé ni enregistré.</span>
+    <span>Ce que vous écrivez n'est ni envoyé ni enregistré.</span>
     <span>© 2026</span>
   </div>
 </footer>
@@ -313,18 +316,14 @@
     var exemple = document.getElementById('exemple');
     var courant = null;
 
-    // Retourne null si vide, false si invalide, sinon l'adresse complète.
+    // Retourne null si vide, sinon le contenu à encoder (lien, courriel ou texte libre).
     function normaliser(brut) {
       var v = brut.trim();
       if (!v) return null;
-      if (!/^[a-z][a-z0-9+.-]*:\/\//i.test(v)) v = 'https://' + v;
-      try {
-        var u = new URL(v);
-        if ((u.protocol !== 'https:' && u.protocol !== 'http:') || u.hostname.indexOf('.') === -1) return false;
-        return u.href;
-      } catch (e) {
-        return false;
-      }
+      if (/^[a-z][a-z0-9+.-]*:/i.test(v) && !/\s/.test(v)) return v;          // https:, mailto:, tel: ...
+      if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)) return 'mailto:' + v;       // adresse courriel
+      if (!/\s/.test(v) && /^[^\s.]+(\.[^\s.]+)+(\/\S*)?$/.test(v)) return 'https://' + v; // monsite.ca/page
+      return v;                                                                // texte libre
     }
 
     function afficherVide(texte) {
@@ -342,19 +341,20 @@
         afficherVide('Votre code apparaîtra ici.');
         return;
       }
-      if (url === false) {
-        indice.textContent = 'Ce lien ne semble pas valide. Exemple : monsite.ca/devoir';
-        afficherVide('Corrigez le lien pour voir votre code.');
-        return;
-      }
       if (typeof qrcode === 'undefined') {
         indice.textContent = 'Le générateur n\'a pas pu se charger. Vérifiez votre connexion.';
         afficherVide('Le code ne peut pas être créé pour le moment.');
         return;
       }
       var qr = qrcode(0, 'M');
-      qr.addData(url);
-      qr.make();
+      try {
+        qr.addData(url);
+        qr.make();
+      } catch (e) {
+        indice.textContent = 'Ce texte est trop long pour un code QR. Raccourcissez-le.';
+        afficherVide('Corrigez le texte pour voir votre code.');
+        return;
+      }
       var nouveau = !courant;
       courant = { qr: qr, url: url };
       indice.textContent = '';
@@ -366,8 +366,8 @@
     }
 
     function nomFichier() {
-      var host = courant.url.replace(/^https?:\/\//, '').split('/')[0];
-      return 'qr-' + host.replace(/[^a-z0-9]+/gi, '-').toLowerCase() + '.png';
+      var m = courant.url.match(/^https?:\/\/([^\/?#]+)/i);
+      return 'qr-' + (m ? m[1].replace(/[^a-z0-9]+/gi, '-').toLowerCase() : 'code') + '.png';
     }
 
     btnPng.addEventListener('click', function () {
@@ -402,7 +402,7 @@
     });
 
     exemple.addEventListener('click', function () {
-      input.value = 'https://monsite.ca/devoir-3';
+      input.value = 'https://exemple.com/mon-lien';
       generer();
       input.focus();
     });
