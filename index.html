@@ -159,6 +159,12 @@
   .tip h3 { font-size: 19px; margin: 0 0 6px; letter-spacing: -.015em; }
   .tip p { margin: 0; color: var(--muted); font-size: 15px; }
 
+  .privacy { max-width: 46em; color: var(--muted); }
+  .privacy p { margin: 0 0 14px; }
+  .privacy ul { margin: 0 0 14px; padding-left: 20px; }
+  .privacy li { margin-bottom: 10px; }
+  .privacy strong { color: var(--ink); }
+
   footer { border-top: 1px solid var(--line); padding: 28px 0 36px; color: var(--faint); font-size: 14px; }
   footer .shell { display: flex; flex-direction: column; gap: 6px; }
 
@@ -171,7 +177,7 @@
     footer .shell { flex-direction: row; justify-content: space-between; }
   }
   @media (max-width: 480px) {
-    .nav-links a:first-child { display: none; }
+    .nav-links a:first-child, .nav-links a:nth-child(2) { display: none; }
   }
   @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto; }
@@ -194,6 +200,7 @@
     <nav class="nav-links" aria-label="Principal">
       <a href="#comment">Comment ça marche</a>
       <a href="#conseils">Conseils</a>
+      <a href="#confidentialite">Confidentialité</a>
     </nav>
   </div>
 </header>
@@ -296,18 +303,36 @@
       </div>
     </div>
   </section>
+
+  <section id="confidentialite" style="padding-top:0">
+    <div class="shell">
+      <p class="eyebrow">Vie privée</p>
+      <h2>Confidentialité et RGPD</h2>
+      <div class="privacy">
+        <p><strong>FlashQR ne collecte aucune donnée personnelle.</strong> Pas de compte, pas de cookies, pas de statistiques de visite, pas de publicité, pas de traceurs.</p>
+        <ul>
+          <li><strong>Votre contenu reste chez vous.</strong> Le lien ou le texte que vous saisissez est transformé en code QR directement dans votre navigateur. Il n'est ni envoyé, ni enregistré, ni stocké sur votre appareil.</li>
+          <li><strong>Aucune redirection.</strong> Le code contient directement votre contenu : scanner un code ne passe par aucun serveur FlashQR et ne peut pas être suivi.</li>
+          <li><strong>Aucun service tiers.</strong> Le générateur est inclus dans le site. Aucune police, aucun script ni aucune image n'est chargé depuis un autre site.</li>
+          <li><strong>Seule exception technique.</strong> Comme pour tout site web, l'hébergeur reçoit votre adresse IP et des informations techniques de connexion pour envoyer la page et protéger le service. FlashQR n'y a pas accès et ne les utilise pas.</li>
+        </ul>
+        <p>Aucune donnée personnelle n'étant collectée, il n'y a rien à consulter, corriger ou supprimer. Pour toute question, vous pouvez nous contacter par courriel.</p>
+      </div>
+    </div>
+  </section>
 </main>
 
 <footer>
   <div class="shell">
-    <span>Ce que vous écrivez n'est ni envoyé ni enregistré.</span>
+    <span>Ce que vous écrivez n'est ni envoyé ni enregistré. <a href="#confidentialite" style="color:inherit">Confidentialité</a></span>
     <span>© 2026</span>
   </div>
 </footer>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
+<script src="qrcode.js"></script>
 <script>
   (function () {
+    if (typeof qrcode !== 'undefined') qrcode.stringToBytes = qrcode.stringToBytesFuncs['UTF-8']; // accents, emojis
     var input = document.getElementById('lien');
     var indice = document.getElementById('indice');
     var apercu = document.getElementById('apercu');
