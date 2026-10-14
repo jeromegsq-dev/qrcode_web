@@ -3,88 +3,176 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#ffffff">
 <title>Codes QR pour l'école</title>
 <meta name="description" content="Créez gratuitement des codes QR pour vos fiches, devoirs et affiches. Sans compte et sans filigrane.">
 <style>
   :root {
-    --ink: #111111;
-    --muted: #606060;
-    --line: #e5e5e5;
-    --accent: #111111;
+    --ink: #0f1115;
+    --muted: #5f6673;
+    --faint: #8a91a0;
+    --line: #e9ebf0;
+    --surface: #f7f8fb;
+    --accent: #4f46e5;
+    --accent-2: #7c3aed;
+    --accent-soft: #eef0ff;
+    --radius: 20px;
+    --shadow: 0 1px 2px rgba(15,17,21,.04), 0 12px 40px -12px rgba(79,70,229,.18);
   }
   * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
   html, body { margin: 0; background: #ffffff; }
   body {
-    font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+    font-family: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
     font-size: 16px;
-    line-height: 1.55;
+    line-height: 1.6;
     color: var(--ink);
     overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
   }
-  .shell { max-width: 960px; margin: 0 auto; padding: 0 16px; }
+  .shell { max-width: 1040px; margin: 0 auto; padding: 0 20px; }
 
-  header { border-bottom: 1px solid var(--line); }
-  .nav { display: flex; align-items: center; justify-content: space-between; height: 60px; }
-  .logo { font-weight: 700; font-size: 17px; color: var(--ink); text-decoration: none; }
-  .nav a.link { color: var(--muted); text-decoration: none; font-size: 15px; }
-  .nav a.link:hover { color: var(--ink); }
+  /* En-tête */
+  header {
+    position: sticky; top: 0; z-index: 10;
+    background: rgba(255,255,255,.8);
+    backdrop-filter: saturate(180%) blur(14px);
+    -webkit-backdrop-filter: saturate(180%) blur(14px);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav { display: flex; align-items: center; justify-content: space-between; height: 64px; }
+  .logo { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 16px; color: var(--ink); text-decoration: none; letter-spacing: -.01em; }
+  .logo-mark {
+    width: 30px; height: 30px; border-radius: 9px; display: grid; place-items: center;
+    background: linear-gradient(135deg, var(--accent), var(--accent-2)); color: #fff;
+  }
+  .logo-mark svg { width: 17px; height: 17px; }
+  .nav-links { display: flex; gap: 6px; }
+  .nav-links a { color: var(--muted); text-decoration: none; font-size: 14px; font-weight: 500; padding: 8px 12px; border-radius: 999px; transition: background .2s, color .2s; }
+  .nav-links a:hover { color: var(--ink); background: var(--surface); }
 
-  .hero { display: grid; gap: 32px; padding: 48px 0 40px; }
-  h1 { font-size: clamp(28px, 4.5vw, 40px); line-height: 1.15; margin: 0 0 12px; letter-spacing: -.02em; font-weight: 700; }
-  .lead { color: var(--muted); margin: 0 0 24px; max-width: 32em; }
+  /* Accueil */
+  .hero-wrap { position: relative; overflow: hidden; }
+  .hero-wrap::before {
+    content: ""; position: absolute; inset: -20% -10% auto -10%; height: 90%; z-index: 0; pointer-events: none;
+    background:
+      radial-gradient(40% 50% at 20% 20%, rgba(79,70,229,.14), transparent 70%),
+      radial-gradient(35% 45% at 80% 10%, rgba(124,58,237,.12), transparent 70%),
+      radial-gradient(30% 40% at 60% 70%, rgba(56,189,248,.10), transparent 70%);
+  }
+  .hero { position: relative; z-index: 1; display: grid; gap: 40px; padding-top: 56px; padding-bottom: 64px; }
+  .badge {
+    display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px 6px 8px; margin-bottom: 18px;
+    border: 1px solid var(--line); border-radius: 999px; background: #fff;
+    font-size: 13px; font-weight: 500; color: var(--muted);
+    box-shadow: 0 1px 2px rgba(15,17,21,.04);
+  }
+  .badge i { width: 8px; height: 8px; border-radius: 50%; background: #22c55e; box-shadow: 0 0 0 4px rgba(34,197,94,.18); }
+  h1 {
+    font-size: clamp(34px, 6vw, 58px); line-height: 1.05; margin: 0 0 16px;
+    letter-spacing: -.035em; font-weight: 750;
+  }
+  h1 em {
+    font-style: normal;
+    background: linear-gradient(120deg, var(--accent), var(--accent-2));
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .lead { font-size: 18px; color: var(--muted); margin: 0 0 28px; max-width: 30em; }
 
-  label { display: block; font-weight: 600; margin-bottom: 8px; }
+  label { display: block; font-weight: 600; font-size: 14px; margin-bottom: 8px; }
   .input {
-    width: 100%; height: 50px; padding: 0 14px; font: inherit; font-size: 16px;
-    color: var(--ink); background: #ffffff;
-    border: 1px solid #cccccc; border-radius: 8px;
+    width: 100%; height: 56px; padding: 0 18px; font: inherit; font-size: 16px;
+    color: var(--ink); background: #fff;
+    border: 1px solid #d9dce4; border-radius: 16px;
+    box-shadow: 0 1px 2px rgba(15,17,21,.04);
+    transition: border-color .2s, box-shadow .2s;
   }
-  .input:focus { outline: 2px solid var(--ink); outline-offset: 1px; }
-  .hint { font-size: 14px; color: var(--muted); margin: 8px 0 0; min-height: 1.5em; }
+  .input::placeholder { color: var(--faint); }
+  .input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 4px rgba(79,70,229,.15); }
+  .hint { font-size: 14px; color: #c2410c; margin: 8px 0 0; min-height: 1.5em; }
 
+  .actions { display: flex; flex-direction: column; gap: 12px; margin-top: 8px; }
   .btn {
-    display: flex; align-items: center; justify-content: center;
-    width: 100%; height: 48px; margin-top: 16px; padding: 0 18px;
-    font: inherit; font-weight: 600; font-size: 15px;
-    border: 1px solid var(--ink); border-radius: 8px; cursor: pointer;
-    background: var(--ink); color: #ffffff;
+    display: flex; align-items: center; justify-content: center; gap: 10px;
+    width: 100%; height: 56px; padding: 0 22px;
+    font: inherit; font-weight: 650; font-size: 16px;
+    border: 0; border-radius: 16px; cursor: pointer; color: #fff;
+    background: linear-gradient(135deg, var(--accent), var(--accent-2));
+    box-shadow: 0 10px 24px -8px rgba(79,70,229,.55);
+    transition: transform .15s, box-shadow .2s, opacity .2s;
   }
-  .btn:disabled { opacity: .35; cursor: not-allowed; }
-  .sample { background: none; border: 0; padding: 0; margin-top: 12px; font: inherit; font-size: 14px; color: var(--muted); cursor: pointer; text-decoration: underline; }
+  .btn svg { width: 20px; height: 20px; }
+  .btn:not(:disabled):hover { transform: translateY(-1px); box-shadow: 0 14px 28px -8px rgba(79,70,229,.6); }
+  .btn:not(:disabled):active { transform: translateY(0); }
+  .btn:focus-visible { outline: 3px solid rgba(79,70,229,.4); outline-offset: 2px; }
+  .btn:disabled { background: #e6e8ee; color: #9aa1af; box-shadow: none; cursor: not-allowed; }
+  .sample { align-self: flex-start; background: none; border: 0; padding: 4px 0; font: inherit; font-size: 14px; font-weight: 500; color: var(--accent); cursor: pointer; }
+  .sample:hover { text-decoration: underline; }
 
-  .preview {
-    width: 100%; max-width: 280px; margin: 0 auto; aspect-ratio: 1 / 1;
-    border: 1px dashed #cccccc; border-radius: 8px;
-    display: flex; align-items: center; justify-content: center;
-    color: var(--muted); font-size: 14px; text-align: center; padding: 16px;
+  /* Carte d'aperçu */
+  .stage { display: grid; place-items: center; }
+  .card {
+    width: 100%; max-width: 360px; padding: 20px; border-radius: 28px; background: #fff;
+    border: 1px solid var(--line); box-shadow: var(--shadow);
   }
+  .preview {
+    width: 100%; aspect-ratio: 1 / 1; border-radius: 16px; background: var(--surface);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--faint); font-size: 14px; text-align: center; padding: 20px;
+  }
+  .preview.ready { background: #fff; border: 1px solid var(--line); padding: 8px; animation: pop .35s ease; }
   .preview svg { width: 100%; height: auto; display: block; }
   .status { text-align: center; font-size: 14px; color: var(--muted); margin: 14px 0 0; min-height: 1.5em; }
+  @keyframes pop { from { transform: scale(.96); opacity: .4; } to { transform: scale(1); opacity: 1; } }
 
-  section { padding: 48px 0; border-top: 1px solid var(--line); }
-  h2 { font-size: clamp(22px, 3vw, 28px); line-height: 1.2; margin: 0 0 24px; letter-spacing: -.01em; font-weight: 700; }
+  /* Sections */
+  section { padding: 72px 0; }
+  .eyebrow { font-size: 13px; font-weight: 650; letter-spacing: .06em; text-transform: uppercase; color: var(--accent); margin: 0 0 10px; }
+  h2 { font-size: clamp(26px, 4vw, 38px); line-height: 1.12; margin: 0 0 36px; letter-spacing: -.03em; font-weight: 750; }
 
-  .tips { display: grid; gap: 16px; }
-  .tip { border: 1px solid var(--line); border-radius: 12px; padding: 22px; }
-  .tip svg { width: 40px; height: 40px; display: block; margin-bottom: 14px; }
-  .tip h3 { font-size: 18px; margin: 0 0 6px; }
-  .tip p { margin: 0; color: var(--muted); font-size: 15px; }
-
-  .steps { list-style: none; padding: 0; margin: 0; display: grid; gap: 14px; }
-  .steps li { display: flex; gap: 14px; align-items: flex-start; }
-  .num {
-    flex: 0 0 32px; height: 32px; border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    border: 1px solid var(--ink); font-weight: 700; font-size: 14px;
+  .steps { list-style: none; padding: 0; margin: 0; display: grid; gap: 16px; }
+  .steps li {
+    display: flex; gap: 18px; align-items: flex-start; padding: 22px;
+    border-radius: var(--radius); background: var(--surface);
   }
-  .steps h3 { font-size: 17px; margin: 4px 0 2px; }
+  .num {
+    flex: 0 0 38px; width: 38px; height: 38px; align-self: flex-start; border-radius: 12px; display: grid; place-items: center;
+    background: #fff; color: var(--accent); font-weight: 750; box-shadow: 0 1px 2px rgba(15,17,21,.08);
+  }
+  .steps h3 { font-size: 17px; margin: 6px 0 2px; letter-spacing: -.01em; }
   .steps p { margin: 0; color: var(--muted); font-size: 15px; }
 
-  footer { border-top: 1px solid var(--line); padding: 24px 0; color: var(--muted); font-size: 14px; }
+  .tips { display: grid; gap: 16px; }
+  .tip {
+    padding: 28px; border-radius: var(--radius); background: #fff; border: 1px solid var(--line);
+    transition: transform .2s, box-shadow .2s, border-color .2s;
+  }
+  .tip:hover { transform: translateY(-3px); box-shadow: var(--shadow); border-color: #dcdffb; }
+  .tip .ico {
+    width: 56px; height: 56px; border-radius: 16px; display: grid; place-items: center; margin-bottom: 18px;
+    background: var(--accent-soft); color: var(--accent);
+  }
+  .tip .ico svg { width: 30px; height: 30px; }
+  .tip h3 { font-size: 19px; margin: 0 0 6px; letter-spacing: -.015em; }
+  .tip p { margin: 0; color: var(--muted); font-size: 15px; }
 
-  @media (min-width: 720px) {
-    .hero { grid-template-columns: 1.1fr 1fr; align-items: center; padding: 72px 0 56px; }
+  footer { border-top: 1px solid var(--line); padding: 28px 0 36px; color: var(--faint); font-size: 14px; }
+  footer .shell { display: flex; flex-direction: column; gap: 6px; }
+
+  @media (min-width: 760px) {
+    .hero { grid-template-columns: 1.15fr 1fr; align-items: center; gap: 56px; padding-top: 88px; padding-bottom: 96px; }
+    .steps { grid-template-columns: repeat(3, 1fr); }
+    .steps li { flex-direction: column; gap: 14px; }
+    .steps h3 { margin-top: 0; }
     .tips { grid-template-columns: repeat(3, 1fr); }
+    footer .shell { flex-direction: row; justify-content: space-between; }
+  }
+  @media (max-width: 480px) {
+    .nav-links a:first-child { display: none; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    * { animation: none !important; transition: none !important; }
   }
 </style>
 </head>
@@ -92,36 +180,54 @@
 
 <header>
   <div class="shell nav">
-    <a class="logo" href="#haut">Codes QR École</a>
-    <nav aria-label="Principal">
-      <a class="link" href="#comment">Comment ça marche</a>
-      <a class="link" href="#conseils" style="margin-left:18px">Conseils</a>
+    <a class="logo" href="#haut" aria-label="Accueil">
+      <span class="logo-mark">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M3 3h8v8H3zm2 2v4h4V5zm8-2h8v8h-8zm2 2v4h4V5zM3 13h8v8H3zm2 2v4h4v-4zm8-2h3v3h-3zm5 0h3v3h-3zm-5 5h3v3h-3zm5 0h3v3h-3z"/>
+        </svg>
+      </span>
+      Codes QR École
+    </a>
+    <nav class="nav-links" aria-label="Principal">
+      <a href="#comment">Comment ça marche</a>
+      <a href="#conseils">Conseils</a>
     </nav>
   </div>
 </header>
 
 <main id="haut">
-  <div class="shell hero">
-    <div>
-      <h1>Un code QR pour chaque fiche, chaque devoir, chaque affiche.</h1>
-      <p class="lead">Collez un lien, téléchargez votre code en PNG et imprimez-le. Gratuit, sans compte et sans filigrane.</p>
+  <div class="hero-wrap">
+    <div class="shell hero">
+      <div>
+        <span class="badge"><i></i>Gratuit · sans compte · sans filigrane</span>
+        <h1>Un code QR pour chaque <em>fiche</em>, chaque devoir, chaque affiche.</h1>
+        <p class="lead">Collez un lien, téléchargez votre code en PNG et imprimez-le. C'est tout.</p>
 
-      <label for="lien">Votre lien</label>
-      <input class="input" id="lien" type="text" inputmode="url" autocomplete="off" spellcheck="false"
-             placeholder="https://monsite.ca/devoir-3" aria-describedby="indice">
-      <p class="hint" id="indice" aria-live="polite"></p>
-      <button class="sample" type="button" id="exemple">Essayer avec un exemple</button>
-      <button class="btn" type="button" id="png" disabled>Télécharger en PNG</button>
-    </div>
+        <label for="lien">Votre lien</label>
+        <input class="input" id="lien" type="text" inputmode="url" autocomplete="off" spellcheck="false"
+               placeholder="https://monsite.ca/devoir-3" aria-describedby="indice">
+        <p class="hint" id="indice" aria-live="polite"></p>
+        <div class="actions">
+          <button class="btn" type="button" id="png" disabled>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11m0 0l-4.5-4.5M12 15l4.5-4.5M5 20h14"/></svg>
+            Télécharger en PNG
+          </button>
+          <button class="sample" type="button" id="exemple">Essayer avec un exemple</button>
+        </div>
+      </div>
 
-    <div>
-      <div class="preview" id="apercu">Votre code apparaîtra ici.</div>
-      <p class="status" id="etat"></p>
+      <div class="stage">
+        <div class="card">
+          <div class="preview" id="apercu">Votre code apparaîtra ici.</div>
+          <p class="status" id="etat"></p>
+        </div>
+      </div>
     </div>
   </div>
 
   <section id="comment">
     <div class="shell">
+      <p class="eyebrow">En 3 étapes</p>
       <h2>Comment ça marche</h2>
       <ol class="steps">
         <li>
@@ -149,33 +255,38 @@
     </div>
   </section>
 
-  <section id="conseils">
+  <section id="conseils" style="padding-top:0">
     <div class="shell">
+      <p class="eyebrow">Bon à savoir</p>
       <h2>Avant d'imprimer</h2>
       <div class="tips">
         <div class="tip">
-          <svg viewBox="0 0 40 40" fill="none" stroke="#111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <rect x="6" y="14" width="28" height="12" rx="1"/>
-            <path d="M6 14v-3M12 14v-5M18 14v-3M24 14v-5M30 14v-3M34 14v-3"/>
-            <path d="M6 30h28M6 27v6M34 27v6"/>
-          </svg>
+          <div class="ico">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <rect x="2.5" y="8" width="19" height="8" rx="1.5"/>
+              <path d="M6 8v3M9.5 8v4.5M13 8v3M16.5 8v4.5M20 8v3"/>
+            </svg>
+          </div>
           <h3>Assez grand</h3>
           <p>Visez au moins 2 cm de côté. Pour une affiche, la largeur doit être d'environ un dixième de la distance de lecture.</p>
         </div>
         <div class="tip">
-          <svg viewBox="0 0 40 40" fill="none" stroke="#111" stroke-width="2" aria-hidden="true">
-            <circle cx="20" cy="20" r="14"/>
-            <path d="M20 6a14 14 0 0 1 0 28z" fill="#111"/>
-          </svg>
+          <div class="ico">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <circle cx="12" cy="12" r="9"/>
+              <path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor"/>
+            </svg>
+          </div>
           <h3>Noir sur blanc</h3>
           <p>Un code foncé sur fond clair se lit mieux. Évitez les couleurs pâles et les fonds sombres.</p>
         </div>
         <div class="tip">
-          <svg viewBox="0 0 40 40" fill="none" stroke="#111" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <rect x="12" y="4" width="16" height="32" rx="3"/>
-            <path d="M18 31h4"/>
-            <path d="M3 20h4M33 20h4"/>
-          </svg>
+          <div class="ico">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <rect x="7" y="2.5" width="10" height="19" rx="2.5"/>
+              <path d="M11 18.5h2"/>
+            </svg>
+          </div>
           <h3>Testez d'abord</h3>
           <p>Imprimez une copie, placez-la à la distance réelle des élèves et scannez-la avec deux téléphones.</p>
         </div>
@@ -185,7 +296,10 @@
 </main>
 
 <footer>
-  <div class="shell">Fait pour les enseignants. Le lien que vous collez n'est ni envoyé ni enregistré.</div>
+  <div class="shell">
+    <span>Fait pour les enseignants. Le lien que vous collez n'est ni envoyé ni enregistré.</span>
+    <span>© 2026</span>
+  </div>
 </footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
@@ -214,6 +328,7 @@
     }
 
     function afficherVide(texte) {
+      apercu.className = 'preview';
       apercu.textContent = texte;
       courant = null;
       btnPng.disabled = true;
@@ -240,9 +355,12 @@
       var qr = qrcode(0, 'M');
       qr.addData(url);
       qr.make();
+      var nouveau = !courant;
       courant = { qr: qr, url: url };
       indice.textContent = '';
-      apercu.innerHTML = qr.createSvgTag({ cellSize: 6, margin: 4, scalable: true });
+      apercu.className = 'preview ready';
+      if (nouveau) { apercu.style.animation = 'none'; void apercu.offsetWidth; apercu.style.animation = ''; }
+      apercu.innerHTML = qr.createSvgTag({ cellSize: 6, margin: 2, scalable: true });
       etat.textContent = 'Prêt. Scannez-le pour vérifier.';
       btnPng.disabled = false;
     }
