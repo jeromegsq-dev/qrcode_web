@@ -1,0 +1,397 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Codes QR pour l'école</title>
+<meta name="description" content="Créez gratuitement des codes QR pour vos fiches, devoirs et affiches. Sans compte et sans filigrane.">
+<style>
+  :root {
+    --ink: #161a1f;
+    --muted: #5d6671;
+    --bg: #ffffff;
+    --soft: #f5f7f6;
+    --line: #e2e6e4;
+    --accent: #1d6b52;
+    --accent-ink: #ffffff;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ink: #eef1ef;
+      --muted: #a4aca8;
+      --bg: #121513;
+      --soft: #1a1e1c;
+      --line: #2a302d;
+      --accent: #5fb898;
+      --accent-ink: #0d1210;
+    }
+  }
+  :root[data-theme="dark"] {
+    --ink: #eef1ef;
+    --muted: #a4aca8;
+    --bg: #121513;
+    --soft: #1a1e1c;
+    --line: #2a302d;
+    --accent: #5fb898;
+    --accent-ink: #0d1210;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  body {
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.55;
+    color: var(--ink);
+    background: var(--bg);
+    overflow-x: hidden;
+  }
+  a { color: inherit; }
+  .shell { max-width: 1040px; margin: 0 auto; padding: 0 16px; }
+
+  /* En-tête */
+  header { border-bottom: 1px solid var(--line); }
+  .nav { display: flex; align-items: center; justify-content: space-between; height: 60px; }
+  .logo { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 18px; text-decoration: none; }
+  .logo svg { width: 22px; height: 22px; color: var(--accent); }
+  .nav a.link { color: var(--muted); text-decoration: none; font-size: 15px; }
+  .nav a.link:hover { color: var(--ink); }
+
+  /* Accueil */
+  .hero { display: grid; grid-template-columns: 1fr; gap: 32px; padding: 48px 0 40px; }
+  .eyebrow { font-size: 13px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; color: var(--accent); margin: 0 0 8px; }
+  h1 { font-size: clamp(30px, 5vw, 46px); line-height: 1.12; margin: 0 0 14px; letter-spacing: -.02em; }
+  .lead { font-size: 18px; color: var(--muted); margin: 0 0 24px; max-width: 34em; }
+
+  .field-label { display: block; font-weight: 600; margin-bottom: 8px; }
+  .input {
+    width: 100%; height: 52px; padding: 0 16px; font: inherit; font-size: 16px;
+    color: var(--ink); background: var(--bg);
+    border: 1px solid var(--line); border-radius: 10px;
+  }
+  .input:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+  .hint { font-size: 14px; color: var(--muted); margin: 8px 0 0; min-height: 1.5em; }
+
+  .buttons { display: grid; grid-template-columns: 1fr; gap: 10px; margin-top: 20px; }
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center;
+    height: 48px; padding: 0 18px; font: inherit; font-weight: 600; font-size: 15px;
+    border-radius: 10px; border: 1px solid var(--accent); cursor: pointer;
+    background: var(--accent); color: var(--accent-ink);
+  }
+  .btn.ghost { background: transparent; color: var(--ink); border-color: var(--line); }
+  .btn:disabled { opacity: .45; cursor: not-allowed; }
+  .btn:not(:disabled):hover { filter: brightness(1.06); }
+  .sample { background: none; border: 0; padding: 0; margin-top: 14px; font: inherit; font-size: 14px; color: var(--accent); cursor: pointer; text-decoration: underline; }
+
+  /* Aperçu */
+  .card { background: var(--soft); border: 1px solid var(--line); border-radius: 16px; padding: 24px; }
+  .preview {
+    width: 100%; max-width: 300px; margin: 0 auto; aspect-ratio: 1 / 1;
+    background: #ffffff; border-radius: 10px; display: flex; align-items: center; justify-content: center;
+    color: #5d6671; font-size: 14px; text-align: center; padding: 16px;
+  }
+  .preview svg { width: 100%; height: auto; display: block; }
+  .status { text-align: center; font-size: 14px; color: var(--muted); margin: 14px 0 0; min-height: 1.5em; }
+
+  /* Sections */
+  section { padding: 48px 0; border-top: 1px solid var(--line); }
+  h2 { font-size: clamp(24px, 3.4vw, 32px); line-height: 1.2; margin: 0 0 10px; letter-spacing: -.01em; }
+  .sub { color: var(--muted); margin: 0 0 28px; max-width: 36em; }
+  .cards { display: grid; grid-template-columns: 1fr; gap: 16px; }
+  .item { border: 1px solid var(--line); border-radius: 14px; padding: 22px; }
+  .item h3 { font-size: 18px; margin: 0 0 6px; }
+  .item p { margin: 0; color: var(--muted); font-size: 15px; }
+  .steps { list-style: none; padding: 0; margin: 0; display: grid; gap: 16px; counter-reset: s; }
+  .steps li { display: flex; gap: 16px; align-items: flex-start; }
+  .num {
+    flex: 0 0 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    background: var(--accent); color: var(--accent-ink); font-weight: 700;
+  }
+  .steps h3 { font-size: 17px; margin: 4px 0 2px; }
+  .steps p { margin: 0; color: var(--muted); font-size: 15px; }
+
+  details { border-bottom: 1px solid var(--line); padding: 16px 0; }
+  details:first-of-type { border-top: 1px solid var(--line); }
+  summary { cursor: pointer; font-weight: 600; list-style: none; display: flex; justify-content: space-between; gap: 16px; }
+  summary::-webkit-details-marker { display: none; }
+  summary::after { content: "+"; color: var(--muted); font-weight: 400; font-size: 20px; line-height: 1; }
+  details[open] summary::after { content: "–"; }
+  details p { color: var(--muted); margin: 10px 0 0; }
+
+  footer { border-top: 1px solid var(--line); padding: 28px 0; color: var(--muted); font-size: 14px; }
+  footer .shell { display: flex; flex-direction: column; gap: 8px; }
+
+  /* Tablette et ordinateur */
+  @media (min-width: 720px) {
+    .hero { grid-template-columns: 1.1fr 1fr; align-items: center; padding: 72px 0 56px; }
+    .buttons { grid-template-columns: 1fr 1fr; }
+    .cards { grid-template-columns: repeat(3, 1fr); }
+    footer .shell { flex-direction: row; justify-content: space-between; align-items: center; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="shell nav">
+    <a class="logo" href="#haut" aria-label="Accueil">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path fill="currentColor" d="M3 3h8v8H3zm2 2v4h4V5zm8-2h8v8h-8zm2 2v4h4V5zM3 13h8v8H3zm2 2v4h4v-4zm11-2h2v2h-2zm-2 2h2v2h-2zm4 0h2v2h-2zm-2 2h2v2h-2zm2 2h2v2h-2z"/>
+      </svg>
+      Codes QR <span style="color:var(--accent)">École</span>
+    </a>
+    <nav aria-label="Principal">
+      <a class="link" href="#comment">Comment ça marche</a>
+      <a class="link" href="#conseils" style="margin-left:18px">Conseils</a>
+    </nav>
+  </div>
+</header>
+
+<main id="haut">
+  <div class="shell hero">
+    <div>
+      <p class="eyebrow">Gratuit pour le personnel enseignant</p>
+      <h1>Un code QR pour chaque fiche, chaque devoir, chaque affiche.</h1>
+      <p class="lead">Collez un lien, téléchargez votre code et imprimez-le. Pas de compte, pas de filigrane, pas de publicité.</p>
+
+      <label class="field-label" for="lien">Votre lien</label>
+      <input class="input" id="lien" type="text" inputmode="url" autocomplete="off" spellcheck="false"
+             placeholder="https://monsite.ca/devoir-3" aria-describedby="indice">
+      <p class="hint" id="indice" aria-live="polite"></p>
+      <button class="sample" type="button" id="exemple">Essayer avec un exemple</button>
+
+      <div class="buttons">
+        <button class="btn" type="button" id="png" disabled>Télécharger en PNG</button>
+        <button class="btn ghost" type="button" id="svg" disabled>Télécharger en SVG</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="preview" id="apercu">Votre code apparaîtra ici.</div>
+      <p class="status" id="etat"></p>
+    </div>
+  </div>
+
+  <section id="utilisations">
+    <div class="shell">
+      <h2>Pour la classe</h2>
+      <p class="sub">Quelques façons simples d'utiliser un code QR avec vos élèves.</p>
+      <div class="cards">
+        <div class="item">
+          <h3>Fiches et exercices</h3>
+          <p>Imprimez un code sur la fiche. Les élèves le scannent pour ouvrir la correction, une vidéo ou un document.</p>
+        </div>
+        <div class="item">
+          <h3>Devoirs à la maison</h3>
+          <p>Mettez le lien du formulaire ou du document partagé sur le tableau. Plus besoin de le dicter.</p>
+        </div>
+        <div class="item">
+          <h3>Affiches et sorties</h3>
+          <p>Affichez un code dans le corridor ou à la bibliothèque, par exemple pour un projet ou une activité de sortie.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="comment">
+    <div class="shell">
+      <h2>Comment ça marche</h2>
+      <p class="sub">Trois étapes, moins d'une minute.</p>
+      <ol class="steps">
+        <li>
+          <span class="num">1</span>
+          <div>
+            <h3>Collez votre lien</h3>
+            <p>Copiez l'adresse de la page, du document ou du formulaire que vous voulez partager.</p>
+          </div>
+        </li>
+        <li>
+          <span class="num">2</span>
+          <div>
+            <h3>Vérifiez avec votre téléphone</h3>
+            <p>Ouvrez l'appareil photo de votre téléphone et pointez-le vers le code à l'écran.</p>
+          </div>
+        </li>
+        <li>
+          <span class="num">3</span>
+          <div>
+            <h3>Téléchargez et imprimez</h3>
+            <p>Le PNG convient à Word et aux courriels. Le SVG reste net pour une grande affiche.</p>
+          </div>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <section id="conseils">
+    <div class="shell">
+      <h2>Avant d'imprimer</h2>
+      <p class="sub">Quelques conseils pour que le code se lise bien du premier coup.</p>
+      <div class="cards">
+        <div class="item">
+          <h3>Assez grand</h3>
+          <p>Visez au moins 2 cm de côté. Pour une affiche, la largeur doit être d'environ un dixième de la distance de lecture.</p>
+        </div>
+        <div class="item">
+          <h3>Noir sur blanc</h3>
+          <p>Un code foncé sur fond clair se lit mieux. Évitez les couleurs pâles et les fonds sombres.</p>
+        </div>
+        <div class="item">
+          <h3>Testez d'abord</h3>
+          <p>Imprimez une copie, placez-la à la distance réelle des élèves et scannez-la avec deux téléphones.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="questions">
+    <div class="shell">
+      <h2>Questions fréquentes</h2>
+      <p class="sub">Une autre question ? Écrivez-nous à <a href="mailto:contact@exemple.ca">contact@exemple.ca</a>.</p>
+      <details>
+        <summary>Est-ce vraiment gratuit ?</summary>
+        <p>Oui. Vous pouvez créer et télécharger autant de codes que vous voulez, sans compte et sans filigrane.</p>
+      </details>
+      <details>
+        <summary>Mes liens sont-ils envoyés quelque part ?</summary>
+        <p>Non. Le code est dessiné directement dans votre navigateur. Le lien que vous collez n'est ni envoyé ni enregistré.</p>
+      </details>
+      <details>
+        <summary>Un code imprimé peut-il expirer ?</summary>
+        <p>Le code contient votre lien tel quel. Il fonctionne tant que la page ou le document existe. Si vous changez de lien, il faudra imprimer un nouveau code.</p>
+      </details>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="shell">
+    <span>Fait pour les enseignants du Québec.</span>
+    <span>© 2026</span>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
+<script>
+  (function () {
+    var input = document.getElementById('lien');
+    var indice = document.getElementById('indice');
+    var apercu = document.getElementById('apercu');
+    var etat = document.getElementById('etat');
+    var btnPng = document.getElementById('png');
+    var btnSvg = document.getElementById('svg');
+    var exemple = document.getElementById('exemple');
+    var courant = null;
+
+    // Retourne null si vide, false si invalide, sinon l'adresse complète.
+    function normaliser(brut) {
+      var v = brut.trim();
+      if (!v) return null;
+      if (!/^[a-z][a-z0-9+.-]*:\/\//i.test(v)) v = 'https://' + v;
+      try {
+        var u = new URL(v);
+        if ((u.protocol !== 'https:' && u.protocol !== 'http:') || u.hostname.indexOf('.') === -1) return false;
+        return u.href;
+      } catch (e) {
+        return false;
+      }
+    }
+
+    function activerBoutons(actif) {
+      btnPng.disabled = !actif;
+      btnSvg.disabled = !actif;
+    }
+
+    function afficherVide(texte) {
+      apercu.textContent = texte;
+      courant = null;
+      activerBoutons(false);
+      etat.textContent = '';
+    }
+
+    function generer() {
+      var url = normaliser(input.value);
+      if (url === null) {
+        indice.textContent = '';
+        afficherVide('Votre code apparaîtra ici.');
+        return;
+      }
+      if (url === false) {
+        indice.textContent = 'Ce lien ne semble pas valide. Exemple : monsite.ca/devoir';
+        afficherVide('Corrigez le lien pour voir votre code.');
+        return;
+      }
+      if (typeof qrcode === 'undefined') {
+        indice.textContent = 'Le générateur n\'a pas pu se charger. Vérifiez votre connexion.';
+        afficherVide('Le code ne peut pas être créé pour le moment.');
+        return;
+      }
+      var qr = qrcode(0, 'M');
+      qr.addData(url);
+      qr.make();
+      courant = { qr: qr, url: url };
+      indice.textContent = '';
+      apercu.innerHTML = qr.createSvgTag({ cellSize: 6, margin: 4, scalable: true });
+      etat.textContent = 'Prêt. Scannez-le pour vérifier.';
+      activerBoutons(true);
+    }
+
+    function telecharger(blob, nom) {
+      var a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = nom;
+      document.body.appendChild(a);
+      a.click();
+      setTimeout(function () {
+        URL.revokeObjectURL(a.href);
+        a.remove();
+      }, 1000);
+    }
+
+    function nomFichier(ext) {
+      var host = courant.url.replace(/^https?:\/\//, '').split('/')[0];
+      return 'qr-' + host.replace(/[^a-z0-9]+/gi, '-').toLowerCase() + '.' + ext;
+    }
+
+    btnPng.addEventListener('click', function () {
+      if (!courant) return;
+      var qr = courant.qr;
+      var marge = 4;
+      var n = qr.getModuleCount();
+      var cote = Math.max(1, Math.floor(1000 / (n + 2 * marge)));
+      var px = cote * (n + 2 * marge);
+      var canvas = document.createElement('canvas');
+      canvas.width = canvas.height = px;
+      var g = canvas.getContext('2d');
+      g.fillStyle = '#ffffff';
+      g.fillRect(0, 0, px, px);
+      g.fillStyle = '#000000';
+      for (var r = 0; r < n; r++) {
+        for (var c = 0; c < n; c++) {
+          if (qr.isDark(r, c)) g.fillRect((c + marge) * cote, (r + marge) * cote, cote, cote);
+        }
+      }
+      canvas.toBlob(function (blob) {
+        telecharger(blob, nomFichier('png'));
+      }, 'image/png');
+    });
+
+    btnSvg.addEventListener('click', function () {
+      if (!courant) return;
+      var svg = courant.qr.createSvgTag({ cellSize: 10, margin: 4 });
+      var xml = '<?xml version="1.0" encoding="UTF-8"?>\n' + svg;
+      telecharger(new Blob([xml], { type: 'image/svg+xml' }), nomFichier('svg'));
+    });
+
+    exemple.addEventListener('click', function () {
+      input.value = 'https://monsite.ca/devoir-3';
+      generer();
+      input.focus();
+    });
+
+    input.addEventListener('input', generer);
+  })();
+</script>
+</body>
+</html>
